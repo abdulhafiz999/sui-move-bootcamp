@@ -27,16 +27,35 @@ fun test_overflow() {
 fun test_mutability() {}
 
 #[test]
-fun test_boolean() {}
+fun test_boolean() {
+    let a: bool = true;
+
+    assert!(a == true, 701);
+}
 
 #[test]
-fun test_loop() {}
+fun test_loop() {
+    let max: u64 = 5;
+    let mut i: u64 = 0;
+    let mut counter: u64 = 0;
+
+    while (i < max) {
+        counter = counter + 10;
+        i = i + 1;
+    };
+
+    assert!(counter == 50, 401);
+}
 
 #[test]
 fun test_vector() {
     let mut myVec: vector<u8> = vector[10, 20, 30];
 
-    assert!(myVec.is_empty() == true);
+    assert!(myVec.length() == 3, 301);
+    myVec.push_back(40);
+
+    assert!(myVec.is_empty() == false, 201);
+
 }
 
 #[test]
@@ -92,3 +111,4 @@ fun test_dynamic_fields() {
     object::delete(id);
     test_scenario.end();
 }
+

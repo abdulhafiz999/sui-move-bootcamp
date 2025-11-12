@@ -104,4 +104,25 @@ fun test_admin_can_transfer_hero() {
 #[test]
 fun test_admin_can_create_more_admins() {
     // TODO: Implement test
+    let mut scenario = ts::begin(ADMIN);
+
+    init(scenario.ctx());
+    scenario.next_tx(ADMIN);
+
+    let admin_cap = scenario.take_from_sender<AdminCap>();
+
+    new_admin(&admin_cap, ADMIN2, scenario.ctx());
+
+    ts.return_to_sender(admin_cap);
+
+    ts.next_tx(ADMIN2);
+
+    let admin_cap2 = scenario.take_from_sender<AdminCap>();
+    let hero = create_hero(&admin_cap2, b"Accra Hero".to_string(), scenario.ctx());
+    assert!(hero.name == b"Accra")
+
+    scenario.return_to_sender(admin_cap2);
+    destroy(hero);
+
+    scenario.end()
 }

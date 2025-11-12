@@ -44,6 +44,9 @@ public fun process_payment(
     payment: Coin<SUI>,
 ) {
     // TODO process the payment
+    if (payment.value < MIN_PAYMENT) {
+        abort EInvalidPayment;
+    }           
 }
 
 public fun mint_hero(hot_potato: HotPotato, ctx: &mut TxContext): Hero {
